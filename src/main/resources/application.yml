@@ -1,0 +1,35 @@
+server:
+  port: 8082
+spring:
+  data:
+    mongodb:
+      host: localhost
+      database: field-db
+      auto-index-creation: true
+    redis:
+      host: localhost
+      port: 6379
+      repositories:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 256MB
+      max-request-size: 256MB
+      enabled: true
+pusher:
+  instance-key: 5a9b2b79-2747-45f6-9f05-bc0a68432234
+  secret-key: AE3D77AFE36F4606405C2061A4B140B2327EB93089343C4FD4176C71DF27BD91
+  beams:
+    interests:
+      no-technician-found: no-technician
+      faults: faults
+      serrvice: services
+search:
+  radius: 100
+phone:
+  country:
+    code: 27
+jwt:
+  expiration:
+    time: 90000
+
