@@ -4,8 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.geo.Point;
 import za.co.amakosifire.field.domain.clients.model.Site;
-import za.co.amakosifire.field.domain.user.model.Photo;
-import za.co.amakosifire.field.domain.user.model.User;
+import za.co.amakosifire.field.domain.image.model.Photo;
+import za.co.amakosifire.field.domain.auth.model.User;
 
 import java.time.LocalDateTime;
 

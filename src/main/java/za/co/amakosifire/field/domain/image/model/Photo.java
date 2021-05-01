@@ -1,4 +1,4 @@
-package za.co.amakosifire.field.domain.user.model;
+package za.co.amakosifire.field.domain.image.model;
 
 import lombok.Builder;
 import lombok.Data;

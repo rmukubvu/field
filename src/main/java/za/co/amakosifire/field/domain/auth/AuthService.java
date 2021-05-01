@@ -10,23 +10,26 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import za.co.amakosifire.field.application.dto.AuthenticationResponse;
 import za.co.amakosifire.field.application.dto.LoginRequest;
 import za.co.amakosifire.field.application.dto.RefreshTokenRequest;
 import za.co.amakosifire.field.application.dto.RegisterRequest;
 import za.co.amakosifire.field.domain.security.JwtProvider;
 import za.co.amakosifire.field.domain.shared.FieldEyeException;
-import za.co.amakosifire.field.domain.user.mapper.RoleMapper;
-import za.co.amakosifire.field.domain.user.mapper.UserMapper;
-import za.co.amakosifire.field.domain.user.model.User;
+import za.co.amakosifire.field.domain.auth.mapper.RoleMapper;
+import za.co.amakosifire.field.domain.auth.mapper.UserMapper;
+import za.co.amakosifire.field.domain.auth.model.Role;
+import za.co.amakosifire.field.domain.auth.model.User;
 import za.co.amakosifire.field.infrastructure.auth.VerificationTokenRepository;
 import za.co.amakosifire.field.infrastructure.auth.model.VerificationToken;
+import za.co.amakosifire.field.infrastructure.user.RoleRepository;
 import za.co.amakosifire.field.infrastructure.user.UserRepository;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -34,8 +37,10 @@ public class AuthService {
 
     @Value("${phone.country-code}")
     private String COUNTRY_CODE;
+
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
@@ -56,11 +61,29 @@ public class AuthService {
 //                "http://localhost:8080/api/auth/accountVerification/" + token));
     }
 
+    public Role saveRole(Role role) {
+        return RoleMapper.INSTANCE.toDomain(
+                roleRepository.save(RoleMapper.INSTANCE.fromDomain(role)));
+    }
+
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
         return UserMapper.INSTANCE.toDomain(userRepository.findUserByUserNameEquals(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername())));
+    }
+
+    public User findUserById(String id) {
+        var user = userRepository.findById(id);
+        return user.isPresent() ? UserMapper.INSTANCE.toDomain(user.get()) : null;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll().stream().map(UserMapper.INSTANCE::toDomain).collect(Collectors.toList());
+    }
+
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll().stream().map(RoleMapper.INSTANCE::toDomain).collect(Collectors.toList());
     }
 
     private void fetchUserAndEnable(VerificationToken verificationToken) {

@@ -1,20 +1,19 @@
-package za.co.amakosifire.field.infrastructure.auth.model;
+package za.co.amakosifire.field.infrastructure.site.configuration.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import za.co.amakosifire.field.domain.auth.model.User;
 
 import java.time.LocalDateTime;
 
 @Data
-@Document(collection = "token")
-public class VerificationToken {
+@Document(collection = "site_configuration")
+public class SiteConfiguration {
     @Id
     private String id;
     @Indexed
-    private String token;
-    private User user;
-    private LocalDateTime expiryDate;
+    private String siteId;
+    private String pumpId;
+    private LocalDateTime createdDate;
 }

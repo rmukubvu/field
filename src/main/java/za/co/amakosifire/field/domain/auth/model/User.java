@@ -1,4 +1,4 @@
-package za.co.amakosifire.field.domain.user.model;
+package za.co.amakosifire.field.domain.auth.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
-    private Boolean enabled;
+    private boolean enabled;
     private String contactNumber;
     private LocalDateTime creationDate;
 

@@ -6,8 +6,8 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import za.co.amakosifire.field.domain.clients.model.Site;
-import za.co.amakosifire.field.domain.user.model.Photo;
-import za.co.amakosifire.field.domain.user.model.User;
+import za.co.amakosifire.field.domain.image.model.Photo;
+import za.co.amakosifire.field.domain.auth.model.User;
 
 import java.time.LocalDateTime;
 

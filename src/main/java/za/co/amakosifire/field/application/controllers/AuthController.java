@@ -10,6 +10,10 @@ import za.co.amakosifire.field.application.dto.RefreshTokenRequest;
 import za.co.amakosifire.field.application.dto.RegisterRequest;
 import za.co.amakosifire.field.domain.auth.AuthService;
 import za.co.amakosifire.field.domain.auth.RefreshTokenService;
+import za.co.amakosifire.field.domain.auth.model.Role;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -21,12 +25,6 @@ public class AuthController {
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
-        authService.register(registerRequest);
-        return new ResponseEntity<>("User Registration Successful",
-                OK);
-    }
 
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
@@ -34,9 +32,32 @@ public class AuthController {
         return new ResponseEntity<>("Account Activated Successfully", OK);
     }
 
+    @GetMapping("/roles")
+    public ResponseEntity<?> roles() {
+        return ResponseEntity.ok().body(authService.getAllRoles());
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> users() {
+        return ResponseEntity.ok().body(authService.getAllUsers());
+    }
+
     @PostMapping("/login")
     public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
+    }
+
+    @PostMapping("/role")
+    public ResponseEntity<?> addRole(@Validated @RequestBody Role role) throws URISyntaxException {
+        var result = authService.saveRole(role);
+        return ResponseEntity.created(new URI("/api/v1/auth/role/" + result.getId())).body(result);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+        authService.register(registerRequest);
+        return new ResponseEntity<>("User Registration Successful",
+                OK);
     }
 
     @PostMapping("/refresh/token")
@@ -49,6 +70,5 @@ public class AuthController {
         refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
         return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
     }
-
 
 }

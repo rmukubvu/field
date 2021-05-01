@@ -19,6 +19,6 @@ public class User {
     private String lastName;
     private String password;
     private String contactNumber;
-    private Boolean isEnabled;
+    private boolean isEnabled;
     private LocalDateTime creationDate;
 }

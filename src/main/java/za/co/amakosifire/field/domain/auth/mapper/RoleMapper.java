@@ -1,7 +1,7 @@
-package za.co.amakosifire.field.domain.user.mapper;
+package za.co.amakosifire.field.domain.auth.mapper;
 
 import org.mapstruct.Mapper;
-import za.co.amakosifire.field.domain.user.model.Role;
+import za.co.amakosifire.field.domain.auth.model.Role;
 
 import static org.mapstruct.factory.Mappers.getMapper;
 

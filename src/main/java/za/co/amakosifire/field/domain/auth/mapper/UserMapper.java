@@ -1,4 +1,4 @@
-package za.co.amakosifire.field.domain.user.mapper;
+package za.co.amakosifire.field.domain.auth.mapper;
 
 import org.mapstruct.Mapper;
 import za.co.amakosifire.field.infrastructure.user.model.User;
@@ -11,7 +11,7 @@ public interface UserMapper {
 
     UserMapper INSTANCE = getMapper(UserMapper.class);
 
-    User fromDomain(za.co.amakosifire.field.domain.user.model.User user);
+    User fromDomain(za.co.amakosifire.field.domain.auth.model.User user);
 
-    za.co.amakosifire.field.domain.user.model.User toDomain(User user);
+    za.co.amakosifire.field.domain.auth.model.User toDomain(User user);
 }

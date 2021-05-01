@@ -1,7 +1,7 @@
-package za.co.amakosifire.field.domain.user.mapper;
+package za.co.amakosifire.field.domain.image.mapper;
 
 import org.mapstruct.Mapper;
-import za.co.amakosifire.field.domain.user.model.Photo;
+import za.co.amakosifire.field.domain.image.model.Photo;
 
 import static org.mapstruct.factory.Mappers.getMapper;
 

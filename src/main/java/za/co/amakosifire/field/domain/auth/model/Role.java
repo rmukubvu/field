@@ -1,4 +1,4 @@
-package za.co.amakosifire.field.domain.user.model;
+package za.co.amakosifire.field.domain.auth.model;
 
 import lombok.Data;
 

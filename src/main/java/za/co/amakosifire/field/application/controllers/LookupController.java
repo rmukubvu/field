@@ -1,16 +1,12 @@
 package za.co.amakosifire.field.application.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import za.co.amakosifire.field.domain.lookups.LookupService;
-import za.co.amakosifire.field.domain.lookups.model.City;
-import za.co.amakosifire.field.domain.lookups.model.FleetModel;
-import za.co.amakosifire.field.domain.lookups.model.Province;
-import za.co.amakosifire.field.domain.lookups.model.SearchDistance;
+import za.co.amakosifire.field.domain.lookups.model.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,6 +20,11 @@ public class LookupController {
     @GetMapping("/city")
     public ResponseEntity<?> cities() {
         return ResponseEntity.ok().body(lookupService.getCities());
+    }
+
+    @GetMapping("/pump-types")
+    public ResponseEntity<?> pumpTypes() {
+        return ResponseEntity.ok().body(lookupService.getPumpTypes());
     }
 
     @GetMapping("/province")
@@ -40,6 +41,12 @@ public class LookupController {
     public ResponseEntity<?> addCity(@Validated @RequestBody City model) throws URISyntaxException {
         var result = lookupService.saveCity(model);
         return ResponseEntity.created(new URI("/api/v1/lookup/city/" + result.getId())).body(result);
+    }
+
+    @PostMapping("/pump-type")
+    public ResponseEntity<?> addPumpType(@Validated @RequestBody PumpType model) throws URISyntaxException {
+        var result = lookupService.savePumpType(model);
+        return ResponseEntity.created(new URI("/api/v1/lookup/pump-type/" + result.getId())).body(result);
     }
 
     @PostMapping("/province")

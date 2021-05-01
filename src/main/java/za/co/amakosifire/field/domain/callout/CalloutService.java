@@ -1,48 +1,37 @@
 package za.co.amakosifire.field.domain.callout;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
+import za.co.amakosifire.field.domain.auth.AuthService;
 import za.co.amakosifire.field.domain.callout.model.AcceptedCallout;
 import za.co.amakosifire.field.domain.callout.model.Callout;
 import za.co.amakosifire.field.domain.callout.model.CalloutReference;
 import za.co.amakosifire.field.domain.review.ReviewService;
-import za.co.amakosifire.field.domain.review.model.Review;
 import za.co.amakosifire.field.domain.clients.ClientService;
 import za.co.amakosifire.field.domain.clients.model.Site;
 import za.co.amakosifire.field.domain.fleet.FleetService;
 import za.co.amakosifire.field.domain.shared.*;
-import za.co.amakosifire.field.domain.user.UserService;
-import za.co.amakosifire.field.domain.user.model.Photo;
+import za.co.amakosifire.field.domain.image.PhotoService;
+import za.co.amakosifire.field.domain.image.model.Photo;
 import za.co.amakosifire.field.infrastructure.callout.CalloutRepository;
-import za.co.amakosifire.field.infrastructure.review.ReviewRepository;
 
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CalloutService {
 
     private ReviewService reviewService;
     private CalloutRepository calloutRepository;
     private ClientService clientService;
     private FleetService fleetService;
-    private UserService userService;
+    private PhotoService photoService;
+    private AuthService authService;
 
-    @Autowired
-    public CalloutService(final ReviewService reviewService,
-                          final CalloutRepository calloutRepository,
-                          final ClientService clientService,
-                          final FleetService fleetService,
-                          final UserService userService) {
-        this.reviewService = reviewService;
-        this.calloutRepository = calloutRepository;
-        this.clientService = clientService;
-        this.fleetService = fleetService;
-        this.userService = userService;
-    }
 
     public CalloutReference createCallout(AcceptedCallout acceptedCallout) {
        var site = clientService.findSiteById(acceptedCallout.getSiteId());
@@ -57,7 +46,7 @@ public class CalloutService {
                    .car(carDetailsFrom(acceptedCallout.getUserId()))
                    .photo(photoFrom(acceptedCallout.getUserId()))
                    .rating(reviewService.ratingFrom(acceptedCallout.getUserId()))
-                   .user(userService.findUserById(acceptedCallout.getUserId()))
+                   .user(authService.findUserById(acceptedCallout.getUserId()))
                    .build()));
            return CalloutReference.builder().reference(referenceNumber).build();
        }
@@ -70,7 +59,7 @@ public class CalloutService {
     }
 
     private Photo photoFrom(String userId) {
-       return userService.getPhotoByUserId(userId);
+       return photoService.getPhotoByUserId(userId);
     }
 
     private String carDetailsFrom(String userId) {
