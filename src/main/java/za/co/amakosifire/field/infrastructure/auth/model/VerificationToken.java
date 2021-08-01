@@ -4,9 +4,11 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 import za.co.amakosifire.field.domain.auth.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Document(collection = "token")
@@ -16,5 +18,6 @@ public class VerificationToken {
     @Indexed
     private String token;
     private User user;
-    private LocalDateTime expiryDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date expiryDate;
 }

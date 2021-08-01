@@ -35,8 +35,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AuthService {
 
-    @Value("${phone.country-code}")
-    private String COUNTRY_CODE;
+    private final String COUNTRY_CODE = "27";
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -49,16 +48,12 @@ public class AuthService {
     public void register(RegisterRequest registerRequest) {
         var user = User.builder()
                 .userName(registerRequest.getUsername())
+                .firstName(registerRequest.getFirstName())
+                .lastName(registerRequest.getLastName())
                 .contactNumber(registerRequest.getContactNumber())
                 .build();
         userRepository.save(UserMapper.INSTANCE.fromDomain(
                 user.onSave(passwordEncoder.encode(registerRequest.getPassword()),COUNTRY_CODE)));
-
-//        String token = generateVerificationToken(user);
-//        mailService.sendMail(new NotificationEmail("Please Activate your Account",
-//                user.getEmail(), "Thank you for signing up to Spring Reddit, " +
-//                "please click on the below url to activate your account : " +
-//                "http://localhost:8080/api/auth/accountVerification/" + token));
     }
 
     public Role saveRole(Role role) {
@@ -111,11 +106,15 @@ public class AuthService {
     public AuthenticationResponse login(LoginRequest loginRequest) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                 loginRequest.getPassword()));
+
+        if (!authenticate.isAuthenticated()) return AuthenticationResponse.builder().isError(true).build();
+
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
         return AuthenticationResponse.builder()
                 .authenticationToken(token)
-                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .isError(false)
+                .refreshToken(refreshTokenService.generateRefreshToken(loginRequest.getUsername()).getToken())
                 .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                 .username(loginRequest.getUsername())
                 .build();

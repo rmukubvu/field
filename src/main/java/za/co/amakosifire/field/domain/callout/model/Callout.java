@@ -8,6 +8,7 @@ import za.co.amakosifire.field.domain.image.model.Photo;
 import za.co.amakosifire.field.domain.auth.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -21,5 +22,5 @@ public class Callout {
     private Photo photo;
     private User user;
     private String callOutDistance;
-    private LocalDateTime acceptedDate;
+    private Date acceptedDate;
 }

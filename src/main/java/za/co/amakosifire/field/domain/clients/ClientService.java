@@ -11,6 +11,7 @@ import za.co.amakosifire.field.infrastructure.clients.ClientRepository;
 import za.co.amakosifire.field.infrastructure.clients.SiteRepository;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +28,13 @@ public class ClientService {
     }
 
     public Client saveClient(Client client) {
+        client.setCreationDate(new Date());
         return ClientMapper.INSTANCE
                 .toDomain(clientRepository.save(ClientMapper.INSTANCE.fromDomain(client.onSave())));
     }
 
     public Site saveSite(Site site) {
-        site.setCreationDate(LocalDateTime.now());
+        site.setCreationDate(new Date());
         return SiteMapper.INSTANCE
                 .toDomain(siteRepository.save(SiteMapper.INSTANCE.fromDomain(site.onSave())));
     }

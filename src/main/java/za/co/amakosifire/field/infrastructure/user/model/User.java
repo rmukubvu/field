@@ -4,8 +4,10 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Document(collection = "user")
@@ -20,5 +22,6 @@ public class User {
     private String password;
     private String contactNumber;
     private boolean isEnabled;
-    private LocalDateTime creationDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date creationDate;
 }

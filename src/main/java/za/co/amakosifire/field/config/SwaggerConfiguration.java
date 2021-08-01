@@ -2,6 +2,7 @@ package za.co.amakosifire.field.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -10,11 +11,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfiguration {
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -22,16 +23,17 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(apiInfo());
+                .apiInfo(getApiInfo());
     }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfo(
-                "Field Eye REST API",
-                "Field Eye Services for Amakosi.",
-                "API TOS",
-                "Terms of service",
-                new Contact("Developers@Thamserios", "www.thamserios.com", "developers@thamserios.com"),
-                "License of API", "API license URL", Collections.emptyList());
+    private ApiInfo getApiInfo() {
+        return new ApiInfoBuilder()
+                .title("Field Eye API")
+                .version("1.0")
+                .description("API for Amakosi Eye Application")
+                .contact(new Contact("Robson Mukubvu", "https://www.amakosifirepumps.co.za/", "it@amakosifire.co.za"))
+                .license("Apache License Version 2.0")
+                .build();
     }
+
 }

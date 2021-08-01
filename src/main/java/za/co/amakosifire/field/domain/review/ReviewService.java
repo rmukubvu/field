@@ -1,5 +1,6 @@
 package za.co.amakosifire.field.domain.review;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.amakosifire.field.domain.review.model.Review;
@@ -12,14 +13,11 @@ import java.text.DecimalFormat;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ReviewService {
 
     private ReviewRepository reviewRepository;
 
-    @Autowired
-    public ReviewService(final ReviewRepository reviewRepository) {
-        this.reviewRepository = reviewRepository;
-    }
 
     public Review addReview(Review review) {
         return ReviewMapper.INSTANCE.toDomain(

@@ -18,7 +18,7 @@ import za.co.amakosifire.field.domain.security.JwtAuthenticationFilter;
 
 @EnableWebSecurity
 @AllArgsConstructor
-public class Security extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -34,13 +34,7 @@ public class Security extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/posts/")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/posts/**")
+                .antMatchers("/api/v1/auth/**")
                 .permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
@@ -66,3 +60,4 @@ public class Security extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 }
+

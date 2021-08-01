@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rating {
+
     public double points;
     List<Review> reviews = new ArrayList<>();
 

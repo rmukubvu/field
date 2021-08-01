@@ -31,5 +31,5 @@ phone:
     code: 27
 jwt:
   expiration:
-    time: 90000
+    time: 900000
 

@@ -4,6 +4,7 @@ import lombok.Data;
 import za.co.amakosifire.field.domain.shared.ModelOnSave;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class Trip implements ModelOnSave<Trip> {
@@ -12,12 +13,12 @@ public class Trip implements ModelOnSave<Trip> {
     private String userId;
     private String startDate;
     private String endDate;
-    private LocalDateTime createdDate;
+    private Date createdDate;
     private String createdBy;
 
     @Override
     public Trip onSave() {
-        this.createdDate = LocalDateTime.now();
+        this.createdDate = new Date();
         return this;
     }
 }

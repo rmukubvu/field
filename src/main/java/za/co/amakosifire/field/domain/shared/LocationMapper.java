@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import za.co.amakosifire.field.domain.location.model.Location;
 import za.co.amakosifire.field.domain.lookups.model.City;
 
-@Mapper(uses = {GeoMapper.class})
+@Mapper
 public interface LocationMapper {
     LocationMapper INSTANCE = Mappers.getMapper(LocationMapper.class);
 

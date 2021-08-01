@@ -11,7 +11,6 @@ import za.co.amakosifire.field.domain.location.model.Location;
 import za.co.amakosifire.field.domain.shared.LocationMapper;
 import za.co.amakosifire.field.infrastructure.location.LocationRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

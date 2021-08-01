@@ -6,6 +6,7 @@ import org.springframework.data.geo.Point;
 import za.co.amakosifire.field.domain.shared.ModelOnSave;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class Site implements ModelOnSave<Site> {
@@ -18,11 +19,11 @@ public class Site implements ModelOnSave<Site> {
     private String city;
     private String province;
     private Point point;
-    private LocalDateTime creationDate;
+    private Date creationDate;
 
     @Override
     public Site onSave() {
-        this.creationDate = LocalDateTime.now();
+        this.creationDate = new Date();
         return this;
     }
 }

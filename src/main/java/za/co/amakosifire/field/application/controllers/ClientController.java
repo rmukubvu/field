@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping("/api/v1/client")
+@RequestMapping("/api/v1/client-site")
 @AllArgsConstructor
 public class ClientController {
 

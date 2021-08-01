@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import za.co.amakosifire.field.domain.shared.ModelOnSave;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class Fleet implements ModelOnSave<Fleet> {
@@ -13,11 +14,11 @@ public class Fleet implements ModelOnSave<Fleet> {
     private String registrationNumber;
     private String fleetNumber;
     private String color;
-    private LocalDateTime creationDate;
+    private Date creationDate;
 
     @Override
     public Fleet onSave() {
-        this.creationDate = LocalDateTime.now();
+        this.creationDate = new Date();
         return this;
     }
 }

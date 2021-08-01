@@ -19,6 +19,7 @@ import za.co.amakosifire.field.infrastructure.callout.CalloutRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -39,7 +40,7 @@ public class CalloutService {
            var referenceNumber = referenceNumberFrom(site.getId());
            calloutRepository.save(CalloutMapper.INSTANCE.fromDomain(Callout.builder()
                    .referenceNumber(referenceNumber)
-                   .acceptedDate(LocalDateTime.now())
+                   .acceptedDate(new Date())
                    .site(site)
                    .calloutPoint(acceptedCallout.getPoint())
                    .callOutDistance(distanceBetween(site, acceptedCallout))

@@ -1,6 +1,7 @@
 package za.co.amakosifire.field.domain.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(final JwtProvider jwtProvider, final UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(final JwtProvider jwtProvider, @Qualifier("userDetailsServiceImpl") final UserDetailsService userDetailsService) {
         this.jwtProvider = jwtProvider;
         this.userDetailsService = userDetailsService;
     }

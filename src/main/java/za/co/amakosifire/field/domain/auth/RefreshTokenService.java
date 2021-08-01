@@ -10,6 +10,7 @@ import za.co.amakosifire.field.domain.auth.model.RefreshToken;
 
 import java.time.LocalDateTime;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,10 +20,11 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository tokenRepository;
 
-    public RefreshToken generateRefreshToken() {
+    public RefreshToken generateRefreshToken(String username) {
        var refreshToken = RefreshToken.builder()
                 .token(UUID.randomUUID().toString())
-                .createdDate(LocalDateTime.now())
+                .username(username)
+                .creationDate(new Date())
                 .build();
 
         return RefreshTokenMapper.INSTANCE.toDomain(tokenRepository.save(RefreshTokenMapper.INSTANCE.fromDomain(refreshToken)));

@@ -4,6 +4,7 @@ import lombok.Data;
 import za.co.amakosifire.field.domain.shared.ModelOnSave;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class Review implements ModelOnSave<Review> {
@@ -11,11 +12,11 @@ public class Review implements ModelOnSave<Review> {
     private String userId;
     private int points;
     private String review;
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     @Override
     public Review onSave() {
-        this.createdDate = LocalDateTime.now();
+        this.createdDate = new Date();
         return this;
     }
 }

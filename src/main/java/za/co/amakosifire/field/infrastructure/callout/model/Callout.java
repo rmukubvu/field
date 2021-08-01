@@ -5,11 +5,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 import za.co.amakosifire.field.domain.clients.model.Site;
 import za.co.amakosifire.field.domain.image.model.Photo;
 import za.co.amakosifire.field.domain.auth.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Document(collection = "callout")
@@ -25,5 +27,7 @@ public class Callout {
     private Photo photo;
     private User user;
     private String callOutDistance;
-    private LocalDateTime acceptedDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date acceptedDate;
+
 }

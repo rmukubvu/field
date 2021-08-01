@@ -16,6 +16,7 @@ import za.co.amakosifire.field.domain.notifications.model.Fault;
 @RequestMapping("/api/v1/notification")
 @AllArgsConstructor
 public class NotificationController {
+
     private NotificationService notificationService;
 
 
