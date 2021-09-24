@@ -1,7 +1,6 @@
 package za.co.amakosifire.field.domain.review;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.amakosifire.field.domain.review.model.Review;
 import za.co.amakosifire.field.domain.review.model.dto.ReviewDto;

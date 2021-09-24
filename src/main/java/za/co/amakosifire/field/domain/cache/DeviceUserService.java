@@ -1,5 +1,6 @@
 package za.co.amakosifire.field.domain.cache;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.amakosifire.field.domain.cache.model.DeviceUser;
@@ -9,13 +10,10 @@ import za.co.amakosifire.field.infrastructure.cache.DeviceUserRepository;
 
 
 @Service
+@AllArgsConstructor
 public class DeviceUserService {
-    private DeviceUserRepository deviceUserRepository;
 
-    @Autowired
-    public DeviceUserService(final DeviceUserRepository deviceUserRepository) {
-        this.deviceUserRepository = deviceUserRepository;
-    }
+    private DeviceUserRepository deviceUserRepository;
 
     public void cacheDeviceUser(Device device) {
         //check exists in cache

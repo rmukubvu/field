@@ -9,4 +9,6 @@ import java.io.Serializable;
 public class DeviceUser implements Serializable {
     private String id;
     private String userId;
+    private double latitude;
+    private double longitude;
 }

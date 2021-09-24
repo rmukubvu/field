@@ -1,5 +1,6 @@
 package za.co.amakosifire.field.domain.device;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.amakosifire.field.domain.cache.DeviceUserService;
@@ -10,15 +11,10 @@ import za.co.amakosifire.field.infrastructure.device.DeviceRepository;
 import java.time.LocalDateTime;
 
 @Service
+@AllArgsConstructor
 public class DeviceService {
     private DeviceRepository deviceRepository;
     private DeviceUserService deviceUserService;
-
-    @Autowired
-    public DeviceService(final DeviceRepository deviceRepository, final DeviceUserService deviceUserService) {
-        this.deviceRepository = deviceRepository;
-        this.deviceUserService = deviceUserService;
-    }
 
     public Device save(final Device device) {
         deviceUserService.cacheDeviceUser(device);
