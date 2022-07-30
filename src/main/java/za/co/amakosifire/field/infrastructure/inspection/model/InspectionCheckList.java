@@ -15,6 +15,7 @@ public class InspectionCheckList {
     private String id;
     private String name;
     private String value;
+    private String comment;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date creationDate;
 }

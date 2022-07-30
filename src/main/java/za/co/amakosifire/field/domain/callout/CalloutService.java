@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import za.co.amakosifire.field.domain.auth.AuthService;
+import za.co.amakosifire.field.domain.auth.UserService;
 import za.co.amakosifire.field.domain.callout.model.AcceptedCallout;
 import za.co.amakosifire.field.domain.callout.model.Callout;
 import za.co.amakosifire.field.domain.callout.model.CalloutReference;
@@ -31,7 +32,7 @@ public class CalloutService {
     private ClientService clientService;
     private FleetService fleetService;
     private PhotoService photoService;
-    private AuthService authService;
+    private UserService userService;
 
 
     public CalloutReference createCallout(AcceptedCallout acceptedCallout) {
@@ -47,7 +48,7 @@ public class CalloutService {
                    .car(carDetailsFrom(acceptedCallout.getUserId()))
                    .photo(photoFrom(acceptedCallout.getUserId()))
                    .rating(reviewService.ratingFrom(acceptedCallout.getUserId()))
-                   .user(authService.findUserById(acceptedCallout.getUserId()))
+                   .user(userService.findUserById(acceptedCallout.getUserId()))
                    .build()));
            return CalloutReference.builder().reference(referenceNumber).build();
        }

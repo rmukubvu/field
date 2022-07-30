@@ -1,7 +1,6 @@
 package za.co.amakosifire.field.domain.cache;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.amakosifire.field.domain.cache.model.DeviceUser;
 import za.co.amakosifire.field.domain.device.model.Device;
@@ -19,7 +18,7 @@ public class DeviceUserService {
         //check exists in cache
         var cachedLocationForDevice = getDeviceUserByDeviceId(device.getId());
         if ( cachedLocationForDevice != null) {
-            cachedLocationForDevice.setUserId(device.getUserId());
+            cachedLocationForDevice.setDeviceId(device.getUserId());
             deviceUserRepository.save(DeviceUserMapper.INSTANCE.fromDomain(cachedLocationForDevice));
             return;
         }
@@ -27,7 +26,7 @@ public class DeviceUserService {
                         (DeviceUserMapper.INSTANCE.fromDomain
                                 (DeviceUser.builder()
                                         .id(device.getId())
-                                        .userId(device.getUserId())
+                                        .deviceId(device.getUserId())
                                         .build()));
 
     }

@@ -5,7 +5,6 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash("LastKnownLocation")
 public class LastKnownLocation {
     private String id;
-    private String deviceId;
     private double latitude;
     private double longitude;
     private String lastKnownTime;

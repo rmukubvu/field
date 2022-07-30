@@ -8,7 +8,5 @@ import java.io.Serializable;
 @RedisHash("DeviceUser")
 public class DeviceUser implements Serializable {
     private String id;
-    private String userId;
-    private double latitude;
-    private double longitude;
+    private String deviceId;
 }

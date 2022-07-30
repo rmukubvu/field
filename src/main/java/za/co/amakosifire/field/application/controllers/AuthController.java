@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import za.co.amakosifire.field.application.dto.AuthenticationResponse;
 import za.co.amakosifire.field.application.dto.LoginRequest;
 import za.co.amakosifire.field.application.dto.RefreshTokenRequest;
-import za.co.amakosifire.field.application.dto.RegisterRequest;
+
 import za.co.amakosifire.field.domain.auth.AuthService;
 import za.co.amakosifire.field.domain.auth.RefreshTokenService;
 import za.co.amakosifire.field.domain.auth.model.Role;
@@ -25,22 +25,11 @@ public class AuthController {
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
 
-
-    @GetMapping("accountVerification/{token}")
-    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
-        authService.verifyAccount(token);
-        return new ResponseEntity<>("Account Activated Successfully", OK);
-    }
-
     @GetMapping("/roles")
     public ResponseEntity<?> roles() {
         return ResponseEntity.ok().body(authService.getAllRoles());
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<?> users() {
-        return ResponseEntity.ok().body(authService.getAllUsers());
-    }
 
     @PostMapping("/login")
     public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
@@ -51,12 +40,6 @@ public class AuthController {
     public ResponseEntity<?> addRole(@Validated @RequestBody Role role) throws URISyntaxException {
         var result = authService.saveRole(role);
         return ResponseEntity.created(new URI("/api/v1/auth/role/" + result.getId())).body(result);
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
-        authService.register(registerRequest);
-        return new ResponseEntity<>("User Registration Successful", OK);
     }
 
     @PostMapping("/refresh/token")

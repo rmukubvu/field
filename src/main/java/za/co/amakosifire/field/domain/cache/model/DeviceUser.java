@@ -11,5 +11,5 @@ import java.time.LocalDateTime;
 @Builder
 public class DeviceUser {
     private String id;
-    private String userId;
+    private String deviceId;
 }

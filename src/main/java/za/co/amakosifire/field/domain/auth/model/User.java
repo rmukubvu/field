@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import za.co.amakosifire.field.domain.shared.PhoneNumber;
 
-import java.time.LocalDateTime;
+
 import java.util.Date;
 
 @Data
@@ -14,6 +14,8 @@ public class User {
     private String userName;
     private String firstName;
     private String lastName;
+    private String email;
+
     private String password;
     private boolean enabled;
     private String contactNumber;
@@ -21,7 +23,7 @@ public class User {
 
     public User onSave(String encodedPassword, String countryCode) {
         this.creationDate = new Date();
-        this.enabled = true;
+        this.enabled = false;
         this.contactNumber = PhoneNumber.getFormat(contactNumber, countryCode);
         this.password = encodedPassword;
         return this;

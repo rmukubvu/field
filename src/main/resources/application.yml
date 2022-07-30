@@ -6,6 +6,7 @@ spring:
       host: localhost
       database: field-db
       auto-index-creation: true
+      port: 27017
     redis:
       host: localhost
       port: 6379
@@ -16,6 +17,23 @@ spring:
       max-file-size: 256MB
       max-request-size: 256MB
       enabled: true
+  mail:
+    host: localhost
+    port: 1025
+    username: hello
+    password: hello
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connection-timeout: 5000
+          timeout: 3000
+          write timeout: 5000
 pusher:
   instance-key: 5a9b2b79-2747-45f6-9f05-bc0a68432234
   secret-key: AE3D77AFE36F4606405C2061A4B140B2327EB93089343C4FD4176C71DF27BD91
@@ -23,7 +41,7 @@ pusher:
     interests:
       no-technician-found: no-technician
       faults: faults
-      serrvice: services
+      service: services
 search:
   radius: 100
 phone:

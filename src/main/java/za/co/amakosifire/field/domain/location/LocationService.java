@@ -2,6 +2,7 @@ package za.co.amakosifire.field.domain.location;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
@@ -29,7 +30,11 @@ public class LocationService {
     private LocationRepository locationRepository;
     private LastKnownLocationRepository lastKnownLocationRepository;
 
-
+    @Autowired
+    public LocationService(final LocationRepository locationRepository, final LastKnownLocationRepository lastKnownLocationRepository) {
+        this.locationRepository = locationRepository;
+        this.lastKnownLocationRepository = lastKnownLocationRepository;
+    }
     public void saveLocation(Location location){
        locationRepository.save(LocationMapper.INSTANCE.fromDomain(location.onSave()));
        cacheLastKnownLocation(location);
@@ -42,14 +47,13 @@ public class LocationService {
         return CollectionUtils.emptyIfNull(locations).stream().map(LocationMapper.INSTANCE::toDomain).collect(Collectors.toList());
     }
 
-
     private void cacheLastKnownLocation(Location location) {
         var coordinates = location.getPoint();
         var lastLocation = LastKnownLocation.builder()
                 .lastKnownTime(CustomDate.valueOf(LocalDateTime.now()))
                 .latitude(coordinates.getLatitude())
                 .longitude(coordinates.getLongitude())
-                .deviceId(location.getDeviceId())
+                .id(location.getDeviceId())
                 .build();
         lastKnownLocationRepository.save(LastKnownLocationMapper.INSTANCE.fromDomain(lastLocation));
     }

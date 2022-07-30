@@ -28,9 +28,9 @@ public class SwaggerConfiguration {
 
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
-                .title("Field Eye API")
+                .title("Fire Watch API")
                 .version("1.0")
-                .description("API for Amakosi Eye Application")
+                .description("API for Fire Watch Application")
                 .contact(new Contact("Robson Mukubvu", "https://www.amakosifirepumps.co.za/", "it@amakosifire.co.za"))
                 .license("Apache License Version 2.0")
                 .build();

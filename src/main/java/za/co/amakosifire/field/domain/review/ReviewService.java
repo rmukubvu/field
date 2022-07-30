@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ReviewService {
-
     private ReviewRepository reviewRepository;
-
 
     public Review addReview(Review review) {
         return ReviewMapper.INSTANCE.toDomain(
