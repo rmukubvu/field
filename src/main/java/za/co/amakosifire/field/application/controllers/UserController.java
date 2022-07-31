@@ -30,15 +30,20 @@ public class UserController {
         return new ResponseEntity<>("User Password Changed", OK);
     }
 
-    @PostMapping("/update-user")
+    @PostMapping("/update")
     public ResponseEntity<String> updateUser(@RequestBody UserRequest request) {
         userService.updateUser(request);
         return new ResponseEntity<>("User Updated Successfully", OK);
     }
 
-    @GetMapping("/users")
+    @GetMapping("/all")
     public ResponseEntity<?> users() {
         return ResponseEntity.ok().body(userService.getAllUsers());
+    }
+
+    @GetMapping("/re-cache")
+    public ResponseEntity<?> reloadUsersInCache() {
+        return ResponseEntity.ok().body(userService.reloadInCache());
     }
 
 }

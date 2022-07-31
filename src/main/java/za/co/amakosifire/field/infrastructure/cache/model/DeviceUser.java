@@ -1,11 +1,13 @@
 package za.co.amakosifire.field.infrastructure.cache.model;
 
-import org.springframework.data.redis.core.RedisHash;
+import lombok.Builder;
+import lombok.Data;
 
 import java.io.Serializable;
 
 
-@RedisHash("DeviceUser")
+@Data
+@Builder
 public class DeviceUser implements Serializable {
     private String id;
     private String deviceId;

@@ -1,8 +1,11 @@
 package za.co.amakosifire.field.infrastructure.cache.model;
 
-import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash("LastKnownLocation")
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
 public class LastKnownLocation {
     private String id;
     private double latitude;

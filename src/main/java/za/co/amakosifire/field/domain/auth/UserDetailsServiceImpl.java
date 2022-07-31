@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import za.co.amakosifire.field.domain.auth.mapper.UserMapper;
 import za.co.amakosifire.field.domain.auth.model.User;
+import za.co.amakosifire.field.domain.cache.CacheService;
 import za.co.amakosifire.field.infrastructure.user.UserRepository;
 
 import java.util.Collection;
@@ -20,12 +21,12 @@ import static java.util.Collections.singletonList;
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final UserRepository userRepository;
+    private final CacheService cacheService;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
-        Optional<User> userOptional = Optional.ofNullable(UserMapper.INSTANCE.toDomain(userRepository.findUserByUserNameEquals(username).get()));
+        Optional<User> userOptional = cacheService.get(username, User.class);
         User user = userOptional
                 .orElseThrow(() -> new UsernameNotFoundException("No user " +
                         "Found with username : " + username));

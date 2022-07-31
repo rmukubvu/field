@@ -7,11 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import za.co.amakosifire.field.application.dto.ChangePasswordRequest;
-import za.co.amakosifire.field.application.dto.ForgotPasswordRequest;
 import za.co.amakosifire.field.application.dto.ForgotPasswordResponse;
 import za.co.amakosifire.field.application.dto.UserRequest;
 import za.co.amakosifire.field.domain.auth.mapper.UserMapper;
 import za.co.amakosifire.field.domain.auth.model.User;
+import za.co.amakosifire.field.domain.cache.CacheService;
 import za.co.amakosifire.field.domain.email.EmailSender;
 import za.co.amakosifire.field.domain.shared.DateUtil;
 import za.co.amakosifire.field.domain.shared.FieldEyeException;
@@ -30,6 +30,7 @@ public class UserService {
     private final EmailSender emailSender;
     private final PasswordResetTokenService passwordResetTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final CacheService cacheService;
 
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
@@ -49,25 +50,28 @@ public class UserService {
 
     public void save(User user) {
         userRepository.save(UserMapper.INSTANCE.fromDomain(user));
+        //cache it
+        cacheService.add(user.getUserName(),user);
     }
 
     public void enableUser(String username) {
         User user = UserMapper.INSTANCE.toDomain(userRepository.findUserByUserNameEquals(username).orElseThrow(() -> new FieldEyeException("User not found with name - " + username)));
         user.setEnabled(true);
-        userRepository.save(UserMapper.INSTANCE.fromDomain(user));
+        save(user);
     }
 
     public ForgotPasswordResponse resetPassword(String userName) {
         String response = "Username is invalid";
         var user = getUserBy(userName);
-        if (Optional.of(user).isPresent()){
-            String token = passwordResetTokenService.generatePasswordResetToken(user);
+        if (user.isPresent()) {
+            var u = user.get();
+            String token = passwordResetTokenService.generatePasswordResetToken(u);
             response = "A link has been sent to your email to change the password";
             String link = "http://localhost:4200/user/pwd?token=" + token;
             emailSender.send(
-                    user.getEmail(),
+                    u.getEmail(),
                     "Change your password",
-                    buildEmail(user.getFirstName(), link));
+                    buildEmail(u.getFirstName(), link));
         }
         return ForgotPasswordResponse.builder().message(response).build();
     }
@@ -76,11 +80,11 @@ public class UserService {
     public void changePassword(ChangePasswordRequest request) {
         if (confirmPasswordToken(request.getToken())) {
             var user = getUserBy(request.getUserName());
-            if (Optional.of(user).isPresent()) {
-                user.setPassword(passwordEncoder.encode(request.getPassword()));
-                userRepository.save(UserMapper.INSTANCE.fromDomain(user));
+            user.ifPresent(u -> {
+                u.setPassword(passwordEncoder.encode(request.getPassword()));
+                save(u);
                 passwordResetTokenService.setChanged(request.getToken());
-            }
+            });
         }
     }
 
@@ -104,23 +108,39 @@ public class UserService {
     }
 
     public boolean userExists(String userName) {
-        return Optional.ofNullable(getUserBy(userName)).isPresent();
+        return getUserBy(userName).isPresent();
     }
 
     public void updateUser(UserRequest request) {
         var user = getUserBy(request.getUsername());
-        if (Optional.ofNullable(user).isPresent()) {
-            user.setFirstName(request.getFirstName());
-            user.setLastName(request.getLastName());
-            user.setEmail(request.getEmail());
-            user.setContactNumber(PhoneNumber.getFormat(request.getContactNumber(), "27"));
-            save(user);
-        }
+       user.ifPresent( u -> {
+           u.setFirstName(request.getFirstName());
+           u.setLastName(request.getLastName());
+           u.setEmail(request.getEmail());
+           u.setContactNumber(PhoneNumber.getFormat(request.getContactNumber(), "27"));
+           save(u);
+       });
     }
 
-    private User getUserBy(String userName) {
-        return UserMapper.INSTANCE.toDomain(userRepository.findUserByUserNameEquals(userName)
-                .orElse(null));
+    public String reloadInCache() {
+        getAllUsers().forEach( user -> {
+            cacheService.add(user.getUserName(), user);
+        });
+        return "Cached";
+    }
+
+    private Optional<User> getUserBy(String userName) {
+        var cachedUser = cacheService.get(userName, User.class);
+        if ( !cachedUser.isPresent() ) {
+            var user= UserMapper.INSTANCE.toDomain(userRepository.findUserByUserNameEquals(userName)
+                    .orElse(null));
+            if (Optional.of(user).isPresent()) {
+                cacheService.add(user.getUserName(),user);
+                return Optional.of(user);
+            }
+            return Optional.empty();
+        }
+        return cachedUser;
     }
 
     private String buildEmail(String name, String link) {
