@@ -35,9 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/api/v1/registration/**").permitAll()
-                .antMatchers("/api/v1/user/reset-password").permitAll()
-                .antMatchers("/api/v1/user/change-password").permitAll()
-                .antMatchers("/api/v1/user/re-cache").permitAll()
+                .antMatchers("/api/v1/user/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
