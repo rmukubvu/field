@@ -26,11 +26,15 @@ public class CacheService {
     }
 
     public <T> Optional<T> get(String key,Class<T> classOfT) {
-        var cacheValue = Optional.of(jedis.get(key));
-        if (cacheValue.isPresent()) {
-            return Optional.of(gson.fromJson(cacheValue.get(), classOfT));
+        try {
+            var cacheValue = Optional.ofNullable(jedis.get(key));
+            if (cacheValue.isPresent()) {
+                return Optional.of(gson.fromJson(cacheValue.get(), classOfT));
+            }
+            return Optional.empty();
+        } catch (Exception ex) {
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     public void deleteKey(String key) {

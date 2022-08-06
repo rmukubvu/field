@@ -132,12 +132,6 @@ public class UserService {
     private Optional<User> getUserBy(String userName) {
         var cachedUser = cacheService.get(userName, User.class);
         if ( !cachedUser.isPresent() ) {
-            var user= UserMapper.INSTANCE.toDomain(userRepository.findUserByUserNameEquals(userName)
-                    .orElse(null));
-            if (Optional.of(user).isPresent()) {
-                cacheService.add(user.getUserName(),user);
-                return Optional.of(user);
-            }
             return Optional.empty();
         }
         return cachedUser;

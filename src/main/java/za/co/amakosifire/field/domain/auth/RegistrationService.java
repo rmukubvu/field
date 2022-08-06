@@ -5,11 +5,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import za.co.amakosifire.field.application.dto.RegisterRequest;
-import za.co.amakosifire.field.domain.auth.mapper.UserMapper;
 import za.co.amakosifire.field.domain.auth.model.User;
 import za.co.amakosifire.field.domain.email.EmailSender;
 import za.co.amakosifire.field.domain.shared.DateUtil;
 import za.co.amakosifire.field.domain.shared.EmailValidator;
+import za.co.amakosifire.field.domain.shared.PhoneValidator;
 
 import java.time.LocalDateTime;
 
@@ -23,18 +23,11 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
     private final EmailValidator emailValidator;
+    private final PhoneValidator phoneValidator;
 
     public void register(RegisterRequest request) {
-        boolean isValidEmail = emailValidator.
-                test(request.getEmail());
 
-        if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
-        }
-
-        if (userService.userExists(request.getUsername())){
-            throw new IllegalStateException("user already exists");
-        }
+        validateRequest(request);
 
         var user = User.builder()
                 .userName(request.getUsername().toLowerCase())
@@ -54,6 +47,27 @@ public class RegistrationService {
                 "Confirm your email",
                 buildEmail(request.getFirstName(), link));
 
+    }
+
+    private void validateRequest(RegisterRequest request) {
+
+        boolean isValidEmail = emailValidator.
+                test(request.getEmail());
+
+        if (!isValidEmail) {
+            throw new IllegalStateException("email is not valid");
+        }
+
+        boolean isValidPhoneNumber = phoneValidator.
+                test(request.getContactNumber());
+
+        if (!isValidPhoneNumber) {
+            throw new IllegalStateException("phone number is not valid");
+        }
+
+        if (userService.userExists(request.getUsername())){
+            throw new IllegalStateException("user already exists");
+        }
     }
 
     @Transactional
