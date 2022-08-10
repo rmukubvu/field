@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import za.co.amakosifire.field.application.dto.ChangePasswordRequest;
 import za.co.amakosifire.field.application.dto.ForgotPasswordResponse;
+import za.co.amakosifire.field.application.dto.GenericResponse;
 import za.co.amakosifire.field.application.dto.UserRequest;
 import za.co.amakosifire.field.domain.auth.mapper.UserMapper;
 import za.co.amakosifire.field.domain.auth.model.User;
@@ -77,7 +78,7 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(ChangePasswordRequest request) {
+    public GenericResponse changePassword(ChangePasswordRequest request) {
         if (confirmPasswordToken(request.getToken())) {
             var user = getUserBy(request.getUserName());
             user.ifPresent(u -> {
@@ -86,6 +87,7 @@ public class UserService {
                 passwordResetTokenService.setChanged(request.getToken());
             });
         }
+        return new GenericResponse("User Password Changed");
     }
 
     private boolean confirmPasswordToken(String token) {
@@ -111,7 +113,7 @@ public class UserService {
         return getUserBy(userName).isPresent();
     }
 
-    public void updateUser(UserRequest request) {
+    public GenericResponse updateUser(UserRequest request) {
         var user = getUserBy(request.getUsername());
        user.ifPresent( u -> {
            u.setFirstName(request.getFirstName());
@@ -120,6 +122,7 @@ public class UserService {
            u.setContactNumber(PhoneNumber.getFormat(request.getContactNumber(), "27"));
            save(u);
        });
+       return new GenericResponse("User Updated Successfully");
     }
 
     public String reloadInCache() {

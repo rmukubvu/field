@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import za.co.amakosifire.field.application.dto.GenericResponse;
 import za.co.amakosifire.field.application.dto.RegisterRequest;
+import za.co.amakosifire.field.application.dto.RegisterResponse;
 import za.co.amakosifire.field.domain.auth.model.User;
 import za.co.amakosifire.field.domain.email.EmailSender;
 import za.co.amakosifire.field.domain.shared.DateUtil;
@@ -25,7 +27,7 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final PhoneValidator phoneValidator;
 
-    public void register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
 
         validateRequest(request);
 
@@ -46,6 +48,8 @@ public class RegistrationService {
                 request.getEmail(),
                 "Confirm your email",
                 buildEmail(request.getFirstName(), link));
+
+        return new RegisterResponse("User was created successfully , user needs to check email to activate");
 
     }
 
@@ -71,7 +75,7 @@ public class RegistrationService {
     }
 
     @Transactional
-    public String confirmToken(String token) {
+    public GenericResponse confirmToken(String token) {
         var confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(() ->
@@ -89,7 +93,7 @@ public class RegistrationService {
 
         userService.enableUser(confirmationToken.getUser().getUserName());
         confirmationTokenService.setConfirmed(token);
-        return "confirmed";
+        return new GenericResponse("User has been confirmed and enabled");
     }
 
     private String buildEmail(String name, String link) {

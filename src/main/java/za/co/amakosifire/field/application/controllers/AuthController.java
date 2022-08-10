@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import za.co.amakosifire.field.application.dto.AuthenticationResponse;
+import za.co.amakosifire.field.application.dto.GenericResponse;
 import za.co.amakosifire.field.application.dto.LoginRequest;
 import za.co.amakosifire.field.application.dto.RefreshTokenRequest;
 
@@ -48,9 +49,9 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@Validated @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
-        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
+    public ResponseEntity<GenericResponse> logout(@Validated @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        var response = refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+        return ResponseEntity.status(OK).body(response);
     }
 
 }

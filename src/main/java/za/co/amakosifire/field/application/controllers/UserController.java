@@ -3,11 +3,8 @@ package za.co.amakosifire.field.application.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import za.co.amakosifire.field.application.dto.ChangePasswordRequest;
-import za.co.amakosifire.field.application.dto.ForgotPasswordRequest;
+import za.co.amakosifire.field.application.dto.*;
 
-import za.co.amakosifire.field.application.dto.ForgotPasswordResponse;
-import za.co.amakosifire.field.application.dto.UserRequest;
 import za.co.amakosifire.field.domain.auth.UserService;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -25,15 +22,15 @@ public class UserController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
-        userService.changePassword(request);
-        return new ResponseEntity<>("User Password Changed", OK);
+    public ResponseEntity<GenericResponse> changePassword(@RequestBody ChangePasswordRequest request) {
+        var response  = userService.changePassword(request);
+        return new ResponseEntity<>(response, OK);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<String> updateUser(@RequestBody UserRequest request) {
-        userService.updateUser(request);
-        return new ResponseEntity<>("User Updated Successfully", OK);
+    public ResponseEntity<GenericResponse> updateUser(@RequestBody UserRequest request) {
+        var response = userService.updateUser(request);
+        return new ResponseEntity<>(response, OK);
     }
 
     @GetMapping("/all")

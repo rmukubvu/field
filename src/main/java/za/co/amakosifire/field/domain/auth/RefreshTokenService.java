@@ -3,6 +3,7 @@ package za.co.amakosifire.field.domain.auth;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import za.co.amakosifire.field.application.dto.GenericResponse;
 import za.co.amakosifire.field.domain.shared.FieldEyeException;
 import za.co.amakosifire.field.domain.shared.RefreshTokenMapper;
 import za.co.amakosifire.field.infrastructure.auth.RefreshTokenRepository;
@@ -30,8 +31,9 @@ public class RefreshTokenService {
         return RefreshTokenMapper.INSTANCE.toDomain(tokenRepository.save(RefreshTokenMapper.INSTANCE.fromDomain(refreshToken)));
     }
 
-    public void deleteRefreshToken(String token) {
+    public GenericResponse deleteRefreshToken(String token) {
         tokenRepository.deleteByToken(token);
+        return new GenericResponse("logged out succesfully");
     }
 
     public boolean validateRefreshToken(final String refreshToken) {
