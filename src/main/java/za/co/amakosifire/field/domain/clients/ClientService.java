@@ -23,12 +23,14 @@ public class ClientService {
 
 
     public Client saveClient(Client client) {
+        client.setId(null);
         client.setCreationDate(new Date());
         return ClientMapper.INSTANCE
                 .toDomain(clientRepository.save(ClientMapper.INSTANCE.fromDomain(client.onSave())));
     }
 
     public Site saveSite(Site site) {
+        site.setId(null);
         site.setCreationDate(new Date());
         return SiteMapper.INSTANCE
                 .toDomain(siteRepository.save(SiteMapper.INSTANCE.fromDomain(site.onSave())));
