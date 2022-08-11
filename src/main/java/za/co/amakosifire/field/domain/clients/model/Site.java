@@ -1,11 +1,9 @@
 package za.co.amakosifire.field.domain.clients.model;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.geo.Point;
+import za.co.amakosifire.field.domain.location.model.Coordinates;
 import za.co.amakosifire.field.domain.shared.ModelOnSave;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -18,7 +16,7 @@ public class Site implements ModelOnSave<Site> {
     private String address;
     private String city;
     private String province;
-    private Point point;
+    private Coordinates point;
     private Date creationDate;
 
     @Override

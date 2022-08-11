@@ -1,12 +1,12 @@
-package za.co.amakosifire.field.domain.location.model;
+package za.co.amakosifire.field.infrastructure.clients.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Coordinates {
     private double longitude;
     private double latitude;

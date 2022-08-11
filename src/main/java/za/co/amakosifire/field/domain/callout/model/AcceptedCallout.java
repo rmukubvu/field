@@ -1,7 +1,7 @@
 package za.co.amakosifire.field.domain.callout.model;
 
 import lombok.Data;
-import org.springframework.data.geo.Point;
+import za.co.amakosifire.field.domain.location.model.Coordinates;
 
 
 import java.time.LocalDateTime;
@@ -11,6 +11,6 @@ public class AcceptedCallout {
     private String id;
     private String userId;
     private String siteId;
-    private Point point;
+    private Coordinates point;
     private LocalDateTime acceptedDate;
 }

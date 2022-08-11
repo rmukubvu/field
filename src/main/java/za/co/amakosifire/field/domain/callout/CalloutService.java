@@ -9,6 +9,7 @@ import za.co.amakosifire.field.domain.auth.UserService;
 import za.co.amakosifire.field.domain.callout.model.AcceptedCallout;
 import za.co.amakosifire.field.domain.callout.model.Callout;
 import za.co.amakosifire.field.domain.callout.model.CalloutReference;
+import za.co.amakosifire.field.domain.location.model.Coordinates;
 import za.co.amakosifire.field.domain.review.ReviewService;
 import za.co.amakosifire.field.domain.clients.ClientService;
 import za.co.amakosifire.field.domain.clients.model.Site;
@@ -76,8 +77,8 @@ public class CalloutService {
         return String.format("%.2f KM", distanceFromSite);
     }
 
-    private double distanceBetweenSiteAndTechnician(Point site,Point technician) {
-        return GeometryHelper.distanceBetweenTwoCoordinates(site.getX(), site.getY(), technician.getX(), technician.getY());
+    private double distanceBetweenSiteAndTechnician(Coordinates site, Coordinates technician) {
+        return GeometryHelper.distanceBetweenTwoCoordinates(site.getLatitude(), site.getLongitude(), technician.getLatitude(), technician.getLongitude());
     }
 
     private String referenceNumberFrom(String siteId) {

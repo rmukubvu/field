@@ -23,7 +23,7 @@ public class Site {
     private String address;
     private String city;
     private String province;
-    private Point point;
+    private Coordinates point;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date creationDate;
 }

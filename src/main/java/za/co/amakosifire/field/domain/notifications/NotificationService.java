@@ -59,7 +59,7 @@ public class NotificationService {
     public void publishFaultToNearbyTechnicians(Fault fault)  {
         var site = getSiteDetails(fault.getSiteId());
         if (site == null) return;
-        var locations = locationService.getDevicesNearFault(site.getPoint().getX(), site.getPoint().getY());
+        var locations = locationService.getDevicesNearFault(site.getPoint().getLatitude(), site.getPoint().getLongitude());
         var publishRequest = getPublishRequest("No Technicians", getMessage(site.getName(), fault.getMessage()));
         //publish to head office - red flag - NO_TECHNICIAN_FOUND_INTEREST
         var interests = CollectionUtils.isEmpty(locations) ? Arrays.asList(NO_TECHNICIAN_FOUND_INTEREST) : getDeviceInterests(locations);
