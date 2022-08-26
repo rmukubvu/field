@@ -60,7 +60,7 @@ public class SiteController {
 
     private Optional<Geometry> getLocationFor(String placeId) {
         WebClient client = WebClient.create();
-        String url = String.format("https://maps.googleapis.com/maps/api/place/details/json?place_id=%s&key=AIzaSyDU7AbtPwtbDzejE3WloI3oFmPoCfCOE10",placeId);
+        String url = String.format("https://maps.googleapis.com/maps/api/place/details/json?place_id=%s&key=%s",placeId);
         WebClient.ResponseSpec responseSpec = client.get()
                 .uri(url)
                 .retrieve();
