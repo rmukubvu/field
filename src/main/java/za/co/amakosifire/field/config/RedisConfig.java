@@ -8,9 +8,13 @@ import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
 public class RedisConfig {
+
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
+    
     @Bean
     Jedis jedis() {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), redisHost);
         return pool.getResource();
     }
 
