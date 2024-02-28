@@ -1,0 +1,65 @@
+server:
+  port: 8082
+logging:
+  level:
+    org.springframework: ERROR
+    zw.payzim: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+    file: "%d %p %c{1.} [%t] %m%n"
+  file:
+    name: field-service.log
+
+spring:
+  data:
+    mongodb:
+      host: ${MONGO_DB_HOST}
+      database: field-db
+      auto-index-creation: true
+      port: ${MONGO_DB_PORT}
+      username: ${MONGO_DB_USER}
+      password: ${MONGO_DB_PWD}
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      repositories:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 256MB
+      max-request-size: 256MB
+      enabled: true
+  mail:
+    host: localhost
+    port: 1025
+    username: hello
+    password: hello
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connection-timeout: 5000
+          timeout: 3000
+          write timeout: 5000
+pusher:
+  instance-key: 5a9b2b79-2747-45f6-9f05-bc0a68432234
+  secret-key: AE3D77AFE36F4606405C2061A4B140B2327EB93089343C4FD4176C71DF27BD91
+  beams:
+    interests:
+      no-technician-found: no-technician
+      faults: faults
+      service: services
+search:
+  radius: 100
+phone:
+  country:
+    code: 27
+jwt:
+  expiration:
+    time: 900000
+
+

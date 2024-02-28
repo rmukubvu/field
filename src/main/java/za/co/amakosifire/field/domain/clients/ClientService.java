@@ -21,7 +21,6 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final SiteRepository siteRepository;
 
-
     public Client saveClient(Client client) {
         client.setId(null);
         client.setCreationDate(new Date());

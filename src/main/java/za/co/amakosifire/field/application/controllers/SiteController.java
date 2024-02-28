@@ -64,7 +64,7 @@ public class SiteController {
         WebClient.ResponseSpec responseSpec = client.get()
                 .uri(url)
                 .retrieve();
-        GooglePlaces googlePlaces = responseSpec.bodyToMono(GooglePlaces.class).block();
+        var googlePlaces = responseSpec.bodyToMono(GooglePlaces.class).block();
         return Optional.ofNullable(googlePlaces).stream().map( e-> e.result.geometry).findFirst();
     }
 
