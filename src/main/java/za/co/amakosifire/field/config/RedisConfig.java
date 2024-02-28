@@ -12,10 +12,14 @@ public class RedisConfig {
 
     @Value("${spring.data.redis.host}")
     private String redisHost;
+
+    @Value("${spring.data.redis.port}")
+    private Integer redisPort;
     
     @Bean
     Jedis jedis() {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), redisHost);
+        System.out.printf("REDIS: %s, %d\n",redisHost, redisPort);
+        JedisPool pool = new JedisPool(redisHost, redisPort);
         return pool.getResource();
     }
 
